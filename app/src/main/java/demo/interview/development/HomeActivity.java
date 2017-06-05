@@ -26,7 +26,6 @@ public class HomeActivity extends AppCompatActivity {
     EditText etMessage;
     Button btnShareMessage;
     static final String TAG = HomeActivity.class.getName();
-    static final  String myself = "/me/feed";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +56,11 @@ public class HomeActivity extends AppCompatActivity {
                     String message = etMessage.getText().toString();
                     Bundle bundle = new Bundle();
                     bundle.putString("message", message);
+                    bundle.putString("link", "developers.facebook.com");
 
-                    GraphRequest graphRequest = new GraphRequest(accessToken, myself, bundle, HttpMethod.POST, new GraphRequest.Callback() {
+                    String graphPath = "/" + Constants.demoapppageId + "/feed";
+
+                    GraphRequest graphRequest = new GraphRequest(accessToken, graphPath, bundle, HttpMethod.POST, new GraphRequest.Callback() {
                         @Override
                         public void onCompleted(GraphResponse response) {
                             try {
