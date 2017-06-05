@@ -26,6 +26,7 @@ public class HomeActivity extends AppCompatActivity {
     EditText etMessage;
     Button btnShareMessage;
     static final String TAG = HomeActivity.class.getName();
+    GraphApiMethods graphApiMethods = new GraphApiMethods();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class HomeActivity extends AppCompatActivity {
         btnShareMessage = (Button) findViewById(R.id.btnShareMessage);
 
         if (AccessToken.getCurrentAccessToken() != null) {
+
+            graphApiMethods.setPageAccessToken(Constants.interviewDevelopmentPageId);
             Profile profile= Profile.getCurrentProfile();
             if (profile != null) {
                 tvMessage.setText(profile.getName());
@@ -54,11 +57,17 @@ public class HomeActivity extends AppCompatActivity {
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
                 if (accessToken != null) {
                     String message = etMessage.getText().toString();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("message", message);
-                    bundle.putString("link", "developers.facebook.com");
 
-                    String graphPath = "/" + Constants.demoapppageId + "/feed";
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.accessToken, graphApiMethods.pageAccessToken);
+                    bundle.putString(Constants.message, message);
+                    bundle.putString(Constants.link, "https://developers.facebook.com/docs/pages/publishing");
+                    boolean unPublished = true;
+                    if (unPublished) {
+                        bundle.putString("published", "false");
+                    }
+
+                    String graphPath = "/" + Constants.interviewDevelopmentPageId + "/feed";
 
                     GraphRequest graphRequest = new GraphRequest(accessToken, graphPath, bundle, HttpMethod.POST, new GraphRequest.Callback() {
                         @Override
@@ -74,7 +83,6 @@ public class HomeActivity extends AppCompatActivity {
                             }
                         }
                     });
-
                     graphRequest.executeAsync();
                 }
             }

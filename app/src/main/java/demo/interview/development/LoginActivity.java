@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        LoginManager.getInstance().logInWithPublishPermissions(LoginActivity.this, Arrays.asList("publish_pages"));
+        LoginManager.getInstance().logInWithPublishPermissions(LoginActivity.this, Arrays.asList("publish_actions, publish_pages"));
     }
 
     @Override
