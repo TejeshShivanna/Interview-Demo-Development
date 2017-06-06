@@ -15,15 +15,18 @@ public class Constants {
     public static final String posts = "posts";
     public static final String value = "value";
     public static final String values = "values";
+    public static final String isFalse = "false";
     public static final String forwardSlash = "/";
     public static final String insights = "insights";
+    public static final String isPublished = "is_published";
     public static final String metric = "post_impressions_unique";
+    public static final String promotablePosts = "promotable_posts";
 
     /* Share types */
     public static final String none = "None";
-    public static final String messageAndLink = "MessageAndLink";
     public static final String photo = "Photo";
     public static final String video = "Video";
+    public static final String messageAndLink = "MessageAndLink";
 
     /* Custom messages */
     public static final String loginError = "Login error";

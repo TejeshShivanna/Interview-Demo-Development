@@ -20,10 +20,12 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class GraphApiMethods {
     String pageAccessToken = Constants.none;
+
     JSONObject pagePosts = null;
-    private final static String TAG = GraphApiMethods.class.getName();
     Map<String, GraphRequest> pageInSightsGraphRequestList = new HashMap<>();
 
+    private final static String TAG = GraphApiMethods.class.getName();
+    private static final String unpublishedGraphPath = Constants.forwardSlash + Constants.pageId + Constants.forwardSlash + Constants.promotablePosts;
     private static final GraphApiMethods graphApiMethods = new GraphApiMethods();
 
     public static GraphApiMethods getInstance() {
@@ -80,6 +82,20 @@ public class GraphApiMethods {
                 if (response.getJSONObject() != null) {
                     Toast.makeText(getApplicationContext(), Constants.shareSuccess, Toast.LENGTH_LONG);
                 }
+            }
+        });
+        graphRequest.executeAsync();
+    }
+
+    public void getUnpublishedPagePosts() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.fields, Constants.id);
+        bundle.putString(Constants.isPublished, Constants.isFalse);
+        GraphRequest graphRequest = new GraphRequest(AccessToken.getCurrentAccessToken(), unpublishedGraphPath, bundle, HttpMethod.GET, new GraphRequest.Callback() {
+            @Override
+            public void onCompleted(GraphResponse response) {
+                /* TODO:Use the fetched unpublished page posts to later post or something */
+                Log.d(TAG, response.toString());
             }
         });
         graphRequest.executeAsync();
