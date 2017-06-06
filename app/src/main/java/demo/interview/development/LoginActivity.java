@@ -39,16 +39,15 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                Log.d(TAG, "Login cancelled");
+                Log.d(TAG, Constants.loginCancelled);
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.e(TAG, "Login error");
+                Log.e(TAG, Constants.loginError);
             }
         });
-
-        LoginManager.getInstance().logInWithPublishPermissions(LoginActivity.this, Arrays.asList("publish_actions, publish_pages"));
+        LoginManager.getInstance().logInWithPublishPermissions(LoginActivity.this, Arrays.asList("publish_actions, publish_pages, read_insights"));
     }
 
     @Override

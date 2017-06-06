@@ -2,5 +2,27 @@
     <string name="app_name">Development</string>
     <string name="facebook_app_id">265729117234274</string>
     <string name="fb_login_protocol_scheme">fb265729117234274</string>
-    <string name="share">Share</string>
+
+    <!-- Text view labels -->
+    <string name="welcome">Welcome</string>
+    <string name="selectType">Choose post type from drop down</string>
+    <string name="enterMessage">Enter message</string>
+    <string name="enterLink">Enter link</string>
+    <string name="choosePhoto">Choose photo</string>
+    <string name="chooseVideo">Choose video</string>
+
+    <!-- Share button labels  -->
+    <string name="shareMessageAndLink">Share Message and Link</string>
+    <string name="sharePhoto">Share Photo</string>
+    <string name="shareVideo">Share Video</string>
+    <string name="pageInSights">Page InSights</string>
+    <string name="getPageInsights">Get page insights</string>
+
+    <!-- Share type drop down values -->
+    <string-array name="share_type">
+        <item>None</item>
+        <item>MessageAndLink</item>
+        <item>Photo</item>
+        <item>Video</item>
+    </string-array>
 </resources>

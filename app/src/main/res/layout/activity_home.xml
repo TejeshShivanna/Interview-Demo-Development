@@ -1,45 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="demo.interview.development.HomeActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="368dp"
         android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvName"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvWelcome"
+            android:text="@string/welcome"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp" />
+            android:layout_marginBottom="30dp" />
 
         <com.facebook.login.widget.ProfilePictureView
             android:id="@+id/profilePhoto"
-            android:layout_width="wrap_content"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp" />
+            android:layout_marginBottom="50dp" />
+
 
         <TextView
-            android:id="@+id/tvMessage"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvField"
+            android:text="@string/selectType"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"/>
+            android:layout_marginBottom="30dp"/>
 
-        <EditText
-            android:id="@+id/etMessage"
-            android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/spinnerShareType"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"/>
+            android:layout_marginBottom="30dp"/>
 
         <Button
-            android:id="@+id/btnShareMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/share"/>
+            android:id="@+id/btnInsights"
+            android:text="@string/pageInSights"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
