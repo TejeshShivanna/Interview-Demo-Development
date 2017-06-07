@@ -1,10 +1,12 @@
 package demo.interview.development;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -23,7 +25,6 @@ public class PageInSights extends AppCompatActivity {
     Button btnPageInSights;
     ListView lvPosts;
     String pageId;
-
     GraphApiMethods graphApiMethods = GraphApiMethods.getInstance();
 
     private final static String TAG = PageInSights.class.getName();
@@ -31,6 +32,8 @@ public class PageInSights extends AppCompatActivity {
     private void initializeControls() {
         btnPageInSights = (Button) findViewById(R.id.btnPageInSights);
         lvPosts = (ListView) findViewById(R.id.lvPosts);
+        /* TODO: on click, show post information*/
+//        lvPosts.setClickable(true);
     }
 
     /* TODO: Change list view display data */
@@ -38,6 +41,7 @@ public class PageInSights extends AppCompatActivity {
         final List<String> postLists = new ArrayList<>();
         for (String key: pagePostViewMap.keySet()) {
             postLists.add(Constants.postInfoMessage + " = " + pagePostViewMap.get(key).getMessage() + "\n" + Constants.postInfoReach + " = " + pagePostViewMap.get(key).getReach());
+//            postLists.add(Constants.postInfoMessage + " = " + pagePostViewMap.get(key).getMessage() + "\n" + Constants.postInfoReach + " = " + pagePostViewMap.get(key).getReach() + "\n" + key);
         }
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, postLists);
         lvPosts.setAdapter(arrayAdapter);
@@ -64,6 +68,20 @@ public class PageInSights extends AppCompatActivity {
                 new PageInSightAsyncTask().execute(new String());
             }
         });
+
+
+        /* TODO: setClickable as true and show the post info in another activity*/
+        lvPosts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object item = lvPosts.getItemAtPosition(position);
+
+                Intent pageDescriptionActivity = new Intent(PageInSights.this, PostDescription.class);
+                pageDescriptionActivity.putExtra(Constants.id, ((String) item).split("\n")[2]);
+                startActivity(pageDescriptionActivity);
+            }
+        });
+
     }
 
     private class PageInSightAsyncTask extends AsyncTask<String, Void, Map<String, PostInfo>> {
