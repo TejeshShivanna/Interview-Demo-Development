@@ -5,18 +5,21 @@
 
     <!-- Text view labels -->
     <string name="welcome">Welcome</string>
-    <string name="selectType">Choose post type from drop down</string>
     <string name="enterMessage">Enter message</string>
     <string name="enterLink">Enter link</string>
     <string name="choosePhoto">Choose photo</string>
     <string name="chooseVideo">Choose video</string>
+    <string name="selectType">Choose post type from drop down</string>
+    <string name="postInfoHeader">Post information is as below:</string>
 
     <!-- Share button labels  -->
-    <string name="shareMessageAndLink">Share Message and Link</string>
+
     <string name="sharePhoto">Share Photo</string>
     <string name="shareVideo">Share Video</string>
+    <string name="publishPost">Publish post</string>
     <string name="pageInSights">Page InSights</string>
     <string name="getPageInsights">Get page insights</string>
+    <string name="shareMessageAndLink">Share Message and Link</string>
     <string name="shareUnPublishedMessageAndLink">Share Unpublished Message and Link</string>
 
     <!-- Share type drop down values -->

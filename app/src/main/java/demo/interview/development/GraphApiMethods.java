@@ -69,7 +69,8 @@ public class GraphApiMethods {
             String description = currentPost.has(Constants.description)? currentPost.getString(Constants.description):null;
             String createdTime = currentPost.has(Constants.createdTime)? currentPost.getString(Constants.createdTime):null;
             String fullPicture = currentPost.has(Constants.fullPicture)? currentPost.getString(Constants.fullPicture):null;
-            return new PostInfo(postId, message, link, name, description, createdTime, fullPicture);
+            boolean isPublished = currentPost.has(Constants.isPublished)? currentPost.getBoolean(Constants.isPublished):false;
+            return new PostInfo(postId, message, link, name, description, createdTime, fullPicture, isPublished);
         } catch (JSONException jsonexception) {
             Log.d(TAG, jsonexception.getLocalizedMessage());
         }
@@ -89,7 +90,7 @@ public class GraphApiMethods {
         }
     }
 
-    public void setPagePosts(String graphPath) {
+    public void getPagePosts(String graphPath) {
         GraphRequest graphRequest = new GraphRequest(AccessToken.getCurrentAccessToken(), graphPath, null, HttpMethod.GET, new GraphRequest.Callback() {
             @Override
             public void onCompleted(GraphResponse response) {

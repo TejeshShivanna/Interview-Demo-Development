@@ -41,7 +41,8 @@
         <activity android:name=".HomeActivity" />
         <activity android:name=".ShareTextAndLink" />
         <activity android:name=".SharePhoto" />
-        <activity android:name=".PageInSights"></activity>
+        <activity android:name=".PageInSights" />
+        <activity android:name=".PostDescription"></activity>
     </application>
 
 </manifest>

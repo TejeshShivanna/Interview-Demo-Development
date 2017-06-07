@@ -92,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         btnInsights.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                graphApiMethods.setPagePosts(pagePostsGraphPath);
+                graphApiMethods.getPagePosts(pagePostsGraphPath);
                 Intent pageInsightsIntent = new Intent(HomeActivity.this, PageInSights.class);
                 startActivity(pageInsightsIntent);
             }

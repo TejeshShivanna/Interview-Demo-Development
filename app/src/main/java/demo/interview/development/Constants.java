@@ -29,7 +29,7 @@ public class Constants {
     public static final String fullPicture = "full_picture";
     public static final String metric = "post_impressions_unique";
     public static final String promotablePosts = "promotable_posts";
-    public static final String postFields = "?fields=message,link,description,created_time,full_picture,name";
+    public static final String postFields = "?fields=message,link,description,created_time,full_picture,name,is_published";
 
     /* Share types */
     public static final String none = "None";
@@ -37,9 +37,16 @@ public class Constants {
     public static final String video = "Video";
     public static final String messageAndLink = "MessageAndLink";
 
+    /* Post Info fields */
+    public static final String postInfoLink = "Link";
+    public static final String postInfoName = "Name";
+    public static final String postInfoReach = "Reach";
+    public static final String postInfoMessage = "Message";
+    public static final String postInfoDescription = "Description";
+    public static final String postInfoCreatedTime = "Created time";
+    public static final String postInfoIsPublished = "Is Published";
+
     /* Custom messages */
-    public static final String postReach = "Reach";
-    public static final String postMessage = "Message";
     public static final String loginError = "Login error";
     public static final String loginCancelled = "Login cancelled";
     public static final String shareSuccess = "Share successfully";

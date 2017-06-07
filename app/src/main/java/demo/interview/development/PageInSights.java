@@ -37,7 +37,7 @@ public class PageInSights extends AppCompatActivity {
     private void loadListView(Map<String, PostInfo> pagePostViewMap) {
         final List<String> postLists = new ArrayList<>();
         for (String key: pagePostViewMap.keySet()) {
-            postLists.add(Constants.postMessage + " = " + pagePostViewMap.get(key).getMessage() + "\n " + Constants.postReach + " = " + pagePostViewMap.get(key).getReach());
+            postLists.add(Constants.postInfoMessage + " = " + pagePostViewMap.get(key).getMessage() + "\n" + Constants.postInfoReach + " = " + pagePostViewMap.get(key).getReach());
         }
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, postLists);
         lvPosts.setAdapter(arrayAdapter);
