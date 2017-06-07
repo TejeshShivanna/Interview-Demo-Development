@@ -12,11 +12,9 @@ import android.widget.ListView;
 import com.facebook.GraphResponse;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,10 +34,10 @@ public class PageInSights extends AppCompatActivity {
     }
 
     /* TODO: Change list view display data */
-    private void loadListView(Map<String, Integer> pagePostViewMap) {
+    private void loadListView(Map<String, PostInfo> pagePostViewMap) {
         final List<String> postLists = new ArrayList<>();
         for (String key: pagePostViewMap.keySet()) {
-            postLists.add("PagePostId = " + key + "\n " + "View count = " + pagePostViewMap.get(key));
+            postLists.add(Constants.postMessage + " = " + pagePostViewMap.get(key).getMessage() + "\n " + Constants.postReach + " = " + pagePostViewMap.get(key).getReach());
         }
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, postLists);
         lvPosts.setAdapter(arrayAdapter);
@@ -58,29 +56,20 @@ public class PageInSights extends AppCompatActivity {
         btnPageInSights.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    final JSONArray jsonArrayPosts = (JSONArray) graphApiMethods.pagePosts.get(Constants.data);
-                    String edge = Constants.forwardSlash + Constants.insights + Constants.forwardSlash + Constants.metric;
-                    for (int i =0; i < jsonArrayPosts.length(); i++) {
-                        JSONObject nextPost = (JSONObject) jsonArrayPosts.get(i);
-                        String pagePostId = nextPost.get(Constants.id).toString();
-                        String graphPath = Constants.forwardSlash + nextPost.get(Constants.id) + edge;
-                        graphApiMethods.setPageInSightsGraphRequestList(pagePostId, graphPath);
-                    }
-                    new PageInSightAsyncTask().execute(new String());
-                } catch (JSONException e) {
-                    Log.d(TAG, e.getLocalizedMessage());
+                String edge = Constants.forwardSlash + Constants.insights + Constants.forwardSlash + Constants.metric;
+                for (String pagePostId : graphApiMethods.getPostInfoMap().keySet()) {
+                    String graphPath = Constants.forwardSlash + pagePostId + edge;
+                    graphApiMethods.setPageInSightsGraphRequestList(pagePostId, graphPath);
                 }
-
+                new PageInSightAsyncTask().execute(new String());
             }
         });
     }
 
-    private class PageInSightAsyncTask extends AsyncTask<String, Void, Map<String, Integer>> {
+    private class PageInSightAsyncTask extends AsyncTask<String, Void, Map<String, PostInfo>> {
         @Override
-        protected Map<String,Integer> doInBackground(String... params) {
+        protected Map<String,PostInfo> doInBackground(String... params) {
             List<GraphResponse> pageInSights = graphApiMethods.getPageInSights();
-            Map<String, Integer> pagePostViewMap = new HashMap<>();
             try {
                 JSONArray pageInSightsJsonArray;
                 for (GraphResponse graphResponse: pageInSights) {
@@ -93,9 +82,9 @@ public class PageInSights extends AppCompatActivity {
                     JSONObject jsonObjectValue = (JSONObject) values.get(0);
                     int value = Integer.parseInt(jsonObjectValue.get(Constants.value).toString());
 
-                    pagePostViewMap.put(pagePostId, value);
+                    graphApiMethods.getPostInfoMap().get(pagePostId).setReach(value);
                 }
-                return pagePostViewMap;
+                return graphApiMethods.getPostInfoMap();
             } catch (Exception jsonException) {
                 Log.d(TAG, jsonException.getLocalizedMessage());
             }
@@ -103,7 +92,7 @@ public class PageInSights extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Map<String, Integer> pagePostViewMap) {
+        protected void onPostExecute(Map<String, PostInfo> pagePostViewMap) {
             loadListView(pagePostViewMap);
         }
     }

@@ -24,7 +24,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     GraphApiMethods graphApiMethods = GraphApiMethods.getInstance();
     String shareType = Constants.none;
 
-    static final String pagePostsGraphPath = Constants.forwardSlash + Constants.pageId + Constants.forwardSlash + Constants.posts;
+    static final String pagePostsGraphPath = Constants.forwardSlash + Constants.pageId + Constants.forwardSlash + Constants.posts + Constants.postFields;
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

@@ -9,6 +9,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,13 +21,16 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class GraphApiMethods {
     String pageAccessToken = Constants.none;
-
-    JSONObject pagePosts = null;
+    Map<String, PostInfo> postInfoMap = new HashMap<>();
     Map<String, GraphRequest> pageInSightsGraphRequestList = new HashMap<>();
 
-    private final static String TAG = GraphApiMethods.class.getName();
+    private static final String TAG = GraphApiMethods.class.getName();
     private static final String unpublishedGraphPath = Constants.forwardSlash + Constants.pageId + Constants.forwardSlash + Constants.promotablePosts;
     private static final GraphApiMethods graphApiMethods = new GraphApiMethods();
+
+    public Map<String, PostInfo> getPostInfoMap() {
+        return postInfoMap;
+    }
 
     public static GraphApiMethods getInstance() {
         return graphApiMethods;
@@ -50,11 +54,40 @@ public class GraphApiMethods {
         graphRequest.executeAsync();
     }
 
+    private PostInfo getPostInfo(JSONObject currentPost) {
+        try {
+            String postId = currentPost.getString(Constants.id);
+            String message = currentPost.has(Constants.message)? currentPost.getString(Constants.message):null;
+            String link = currentPost.has(Constants.link)? currentPost.getString(Constants.link):null;
+            String name = currentPost.has(Constants.name)? currentPost.getString(Constants.name):null;
+            String description = currentPost.has(Constants.description)? currentPost.getString(Constants.description):null;
+            String createdTime = currentPost.has(Constants.createdTime)? currentPost.getString(Constants.createdTime):null;
+            String fullPicture = currentPost.has(Constants.fullPicture)? currentPost.getString(Constants.fullPicture):null;
+            return new PostInfo(postId, message, link, name, description, createdTime, fullPicture);
+        } catch (JSONException jsonexception) {
+            Log.d(TAG, jsonexception.getLocalizedMessage());
+        }
+        return null;
+    }
+
+    private void setPostInfoMap(JSONObject pagePostsJsonObject) {
+        postInfoMap.clear();
+        try {
+            JSONArray jsonArrayPosts = (JSONArray) pagePostsJsonObject.get(Constants.data);
+            for (int i = 0; i < jsonArrayPosts.length(); i++) {
+                PostInfo postInfo = getPostInfo((JSONObject) jsonArrayPosts.get(i));
+                postInfoMap.put(postInfo.getPostId(), postInfo);
+            }
+        } catch (JSONException jsonexception) {
+            Log.d(TAG, jsonexception.getLocalizedMessage());
+        }
+    }
+
     public void setPagePosts(String graphPath) {
         GraphRequest graphRequest = new GraphRequest(AccessToken.getCurrentAccessToken(), graphPath, null, HttpMethod.GET, new GraphRequest.Callback() {
             @Override
             public void onCompleted(GraphResponse response) {
-                pagePosts = response.getJSONObject();
+                setPostInfoMap(response.getJSONObject());
             }
         });
         graphRequest.executeAsync();
