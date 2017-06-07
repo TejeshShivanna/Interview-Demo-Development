@@ -44,6 +44,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <Button
+            android:id="@+id/btnShareUnPublishedMessageAndLink"
+            android:text="@string/shareUnPublishedMessageAndLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

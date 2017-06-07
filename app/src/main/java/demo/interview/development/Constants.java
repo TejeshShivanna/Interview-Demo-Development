@@ -19,7 +19,10 @@ public class Constants {
     public static final String isFalse = "false";
     public static final String values = "values";
     public static final String forwardSlash = "/";
+    public static final String emptyField = "";
     public static final String insights = "insights";
+    public static final String published = "published";
+    public static final String unpublished = "unpublished";
     public static final String description = "description";
     public static final String isPublished = "is_published";
     public static final String createdTime = "created_time";

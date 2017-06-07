@@ -17,6 +17,7 @@
     <string name="shareVideo">Share Video</string>
     <string name="pageInSights">Page InSights</string>
     <string name="getPageInsights">Get page insights</string>
+    <string name="shareUnPublishedMessageAndLink">Share Unpublished Message and Link</string>
 
     <!-- Share type drop down values -->
     <string-array name="share_type">

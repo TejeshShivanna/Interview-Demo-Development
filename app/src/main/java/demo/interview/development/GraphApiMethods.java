@@ -1,5 +1,7 @@
 package demo.interview.development;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -14,8 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -23,6 +27,8 @@ public class GraphApiMethods {
     String pageAccessToken = Constants.none;
     Map<String, PostInfo> postInfoMap = new HashMap<>();
     Map<String, GraphRequest> pageInSightsGraphRequestList = new HashMap<>();
+    SharedPreferences sharedPreferencesUnPublishedPagePosts = getApplicationContext().getSharedPreferences(Constants.unpublished, Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor = sharedPreferencesUnPublishedPagePosts.edit();
 
     private static final String TAG = GraphApiMethods.class.getName();
     private static final String unpublishedGraphPath = Constants.forwardSlash + Constants.pageId + Constants.forwardSlash + Constants.promotablePosts;
@@ -108,12 +114,26 @@ public class GraphApiMethods {
         return graphRequest.executeBatchAndWait(pageInSightsGraphRequestList.values());
     }
 
-    public void post(String graphPath, Bundle bundle) {
+    public void post(String graphPath, Bundle bundle, final boolean isPublished) {
         GraphRequest graphRequest = new GraphRequest(AccessToken.getCurrentAccessToken(), graphPath, bundle, HttpMethod.POST, new GraphRequest.Callback() {
             @Override
             public void onCompleted(GraphResponse response) {
-                if (response.getJSONObject() != null) {
+                JSONObject responseObject = response.getJSONObject();
+                if (responseObject != null) {
                     Toast.makeText(getApplicationContext(), Constants.shareSuccess, Toast.LENGTH_LONG);
+                    if (!isPublished) {
+                        try {
+                            Set<String> unPublishedPagePostsSet = sharedPreferencesUnPublishedPagePosts.getStringSet(Constants.unpublished, null);
+                            if (unPublishedPagePostsSet == null) {
+                                unPublishedPagePostsSet = new HashSet<>();
+                            }
+                            unPublishedPagePostsSet.add(responseObject.getString(Constants.id));
+                            editor.putStringSet(Constants.unpublished, unPublishedPagePostsSet);
+                            editor.apply();
+                        } catch (JSONException jsonException) {
+                            Log.e(TAG, jsonException.getLocalizedMessage());
+                        }
+                    }
                 }
             }
         });
@@ -129,6 +149,18 @@ public class GraphApiMethods {
             public void onCompleted(GraphResponse response) {
                 /* TODO:Use the fetched unpublished page posts to later post or something */
                 Log.d(TAG, response.toString());
+            }
+        });
+        graphRequest.executeAsync();
+    }
+
+    public void postUnPublishedPagePosts(String pagePostId) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.isPublished, Constants.isTrue);
+        GraphRequest graphRequest = new GraphRequest(AccessToken.getCurrentAccessToken(), Constants.forwardSlash + pagePostId, bundle, HttpMethod.POST, new GraphRequest.Callback() {
+            @Override
+            public void onCompleted(GraphResponse response) {
+                Toast.makeText(getApplicationContext(), Constants.shareSuccess, Toast.LENGTH_LONG);
             }
         });
         graphRequest.executeAsync();
